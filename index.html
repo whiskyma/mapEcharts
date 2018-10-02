@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+   <head>
+       <meta charset="utf-8">
+       <title>皇冠现金网 99HG.COM|活动详情</title>
+       <meta name="description" content="皇冠现金网 99HG.COM 皇冠集团  皇冠集团官方唯一现金网_皇冠集团官网  亚洲皇冠官网 娱乐 刺激 爆奖 赢钱、皇冠现金网欢迎您！！">
+       <meta name="keywords" content="皇冠现金网、99HG.COM、皇冠集团、皇冠集团官方唯一现金网_皇冠集团官网、亚洲皇冠官、带给您不一样的娱乐体验,在娱乐中赚钱,在游戏中成为大富翁！">
+       <link rel="shortcut icon" type="image/x-icon" href="https://hg.99hg.wang/static/images/favicon.ico">
+       <meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
+       <style type="text/css">
+           *{
+                margin: 0;
+                padding: 0;
+            }
+            .img{
+                width: 220px;
+                height: 240px;
+            }
+            .texC{
+                margin: 10px 0;
+                text-align: center;
+            }
+            .nameTex{                
+                font-size: 18px;
+                font-weight: 550;
+                letter-spacing: 1px;
+            }
+            .userTxt{
+                margin-left: 10px;
+                font-size: 15px;
+                letter-spacing: 1px;
+            }
+       </style>
+   </head>
+   <body style="height: 100%; margin: 0">
+       <div id="container" style="height: 100%"></div>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-gl/echarts-gl.min.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-stat/ecStat.min.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/dataTool.min.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/china.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/world.js"></script>
+       <script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=ZUONbpqGBsYGXNIYHicvbAbM"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/bmap.min.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/simplex.js"></script>
+       <script type="text/javascript">
+        var dom = document.getElementById("container");
+        var myChart = echarts.init(dom);
+        var app = {};
+        option = null;
+
+        // 初始化data数据
+        var data = [
+            {name: "海门", value: 56, img: 'https://hg.99hg.wang/static/jphd/images/a037.jpg', user: '234****nbh'},
+            {name: "鄂尔多斯", value: 100, img: 'https://hg.99hg.wang/static/jphd/images/a037.jpg', user: 'sdf****jyf'},
+            {name: "招远", value: 56, img: 'https://hg.99hg.wang/static/jphd/images/a037.jpg', user: '345****jjj'},
+            {name: "舟山", value: 146, img: 'https://hg.99hg.wang/static/jphd/images/a037.jpg', user: '1345****hhh'},
+            {name: "齐齐哈尔", value: 245, img: 'https://hg.99hg.wang/static/jphd/images/a037.jpg', user: 'sdf****765'},
+            {name: "盐城", value: 78, img: 'https://hg.99hg.wang/static/jphd/images/a037.jpg', user: 'ggg****556'},
+            {name: "赤峰", value: 56, img: 'https://hg.99hg.wang/static/jphd/images/a037.jpg', user: 'bbs****yyy'},
+            {name: "青岛", value: 321, img: 'https://hg.99hg.wang/static/jphd/images/a037.jpg', user: '156****456'}
+        ];
+
+        // 初始化geoCoordMap数据
+        var geoCoordMap = {
+            "海门":[121.15,31.89],
+            "鄂尔多斯":[109.781327,39.608266],
+            "招远":[120.38,37.35],
+            "舟山":[122.207216,29.985295],
+            "齐齐哈尔":[123.97,47.33],
+            "盐城":[120.13,33.38],
+            "赤峰":[118.87,42.28],
+            "青岛":[120.33,36.07]
+        };
+
+        var convertData = function (data) {
+            var res = [];
+            for (var i = 0; i < data.length; i++) {
+                var geoCoord = geoCoordMap[data[i].name];
+                if (geoCoord) {
+                    res.push({
+                        name: data[i].name,
+                        value: geoCoord.concat(data[i].value),
+                        img: data[i].img,
+                        user: data[i].user
+                    });
+                }
+            }
+            return res;
+        };
+
+        // 地图配置项
+        option = {
+            backgroundColor: '#404a59',
+            title: {
+                text: '全国主要城市',
+                subtext: '本站会员活动范围',
+                sublink: 'http://www.99hg5.com',
+                x:'center',
+                textStyle: {
+                    color: '#fff'
+                }
+            },
+            tooltip: {
+                trigger: 'item',
+                formatter: function (params) {
+                    // console.log(params);
+                    // console.log(params.data.img);
+                    // console.log(params.data.user);
+                    var txtContent = '<div class="texC"><span class="nameTex">'+params.name+'</span>'+
+                    '<span class="userTxt">'+params.data.user+'</span></div>'+
+                    '<img class="img" src="'+params.data.img+'" alt="" />';
+                    return txtContent;
+                }
+            },
+            legend: {
+                orient: 'vertical',
+                y: 'bottom',
+                x:'right',
+                data:['pm2.5'],
+                textStyle: {
+                    color: '#fff'
+                }
+            },
+            visualMap: {  
+                show : false,  
+                x: 'left',  
+                y: 'center',  
+                splitList: [   
+                    {start: 500, end:600},{start: 400, end: 500},  
+                    {start: 300, end: 400},{start: 200, end: 300},  
+                    {start: 100, end: 200},{start: 0, end: 100},  
+                ],  
+                color: ['#5475f5', '#9feaa5', '#85daef','#74e2ca', '#e6ac53', '#9fb5ea']  
+            },
+            geo: {
+                type: 'map',
+                map: 'china',
+                zoom: 1.2, 
+                roam: true, 
+                center: [104.114129, 37.550339],
+                label: {
+                    normal: {
+                        color: '#666', 
+                        fontSize:'70%',
+                        fontStyle: 'italic', 
+                        show: true 
+                    },  
+                    emphasis: {  
+                        show: false  
+                    }
+                },
+                itemStyle: {
+                    normal: {
+                        areaColor: '#323c48',
+                        borderColor: '#111'
+                    },
+                    emphasis: {
+                        areaColor: 'rgba(0,0,0,.5)'
+                    }
+                }
+            },
+            // 属性配置项
+            series: [
+                {
+                    name: 'Top 5',
+                    type: 'effectScatter',
+                    coordinateSystem: 'geo',
+                    data: convertData(data.sort(function(a,b){
+                        return b.value - a.value
+                    })),
+                    symbolSize: function (val) {
+                        return Math.max(val[2] / 10, 8);
+                    },
+                    showEffectOn: 'emphasis',
+                    rippleEffect: {
+                        brushType: 'stroke'
+                    },
+                    hoverAnimation: true,
+                    label: {
+                        normal: {
+                            formatter: '{b}',
+                            position: 'right',
+                            show: true
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+                            color: '#f4e925',
+                            shadowBlur: 10,
+                            shadowColor: '#333'
+                        }
+                    },
+                    zlevel: 1
+                }
+
+
+
+            ]
+        };
+
+        if (option && typeof option === "object") {
+            myChart.setOption(option, true);
+            window.onresize = function (){
+                myChart.resize();
+            }
+        }
+
+        myChart.on('click', function (e) {
+            console.log(e.value);
+            console.log(e.name);
+        });
+
+
+       </script>
+   </body>
+</html>

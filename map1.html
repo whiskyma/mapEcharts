@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<style type="text/css">
+	body, html,#allmap {width: 100%;height: 100%;overflow: hidden;margin:0;font-family:"微软雅黑";}
+	</style>
+	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=AIzaSyBx7XSLouXK3yj-WGY1QAxvk93dJ8JtIaQ"></script>
+
+	<title>皇冠国庆活动</title>
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		html,body{
+			background-color: rgba(0,0,0,.2);
+			color: #fff;
+		}
+		#allmap{
+			width: 1200px;
+			height: 600px;
+			margin: 0 auto;
+		}
+		h2{
+			text-align: center;
+			margin: 10px 0;
+		}
+
+	</style>
+</head>
+<body>
+	<h2>皇冠国庆活动</h2>
+	<div id="allmap"></div>
+	<div id="d1"></div>
+</body>
+</html>
+<script type="text/javascript">
+	// 创建文本框
+	var sContent = "<h4 style='margin:0 0 5px 0;padding:0.2em 0'>天安门</h4>";
+
+
+
+	// 创建Map实例  enableMapClick:false  关闭底图可点功能
+	var map = new BMap.Map("allmap", {enableMapClick:false });
+	// 初始化地图,设置中心点坐标和地图级别    
+	var point = new BMap.Point(116.404, 39.915);
+
+	// 创建信息窗口对象
+	var infoWindow = new BMap.InfoWindow(sContent);
+
+	map.centerAndZoom(point, 5);
+
+	// 1,添加地图类型控件
+	map.addControl(new BMap.MapTypeControl({
+		mapTypes:[
+            BMAP_NORMAL_MAP,
+            BMAP_HYBRID_MAP
+        ]}));
+
+	// 2,添加地图类型控件 左上角添加默认缩放平移控件
+	map.addControl(new BMap.NavigationControl());
+
+
+	//添加标注
+	///////////////////////////////
+	// 根据经纬度标注
+	// 创建标注
+	// var marker = new BMap.Marker(point);
+	// 将标注添加到地图中  
+	// map.addOverlay(marker); 
+
+	// 编写自定义函数,创建标注
+	// function addMarker(point){
+	//   	var marker = new BMap.Marker(point);
+	//   	map.addOverlay(marker);
+	//   	// marker.setAnimation(BMAP_ANIMATION_BOUNCE); 
+	// }
+	// 随机向地图添加25个标注
+	// var bounds = map.getBounds();
+	// var sw = bounds.getSouthWest();
+	// var ne = bounds.getNorthEast();
+	// var lngSpan = Math.abs(sw.lng - ne.lng);
+	// var latSpan = Math.abs(ne.lat - sw.lat);
+	// for (var i = 0; i < 100; i ++) {
+	// 	var point = new BMap.Point(sw.lng + lngSpan * (Math.random() * 0.7), ne.lat - latSpan * (Math.random() * 0.7));
+	// 	addMarker(point);
+	// }
+
+
+	// 获取地图级别事件
+	// var scrollFunc = function(e){
+ //     	e=e || window.event;
+ //     	var t1 = document.getElementById("allmap");
+ //         	t1.value = map.getZoom();
+ //         	console.log('当前地图级别:' + t1.value);         	
+ // 	}
+ // 	if(document.addEventListener){
+ //     	document.addEventListener('DOMMouseScroll',scrollFunc,false);
+ // 	}
+ // 	window.onmousewheel=document.onmousewheel=scrollFunc;
+
+
+
+	//添加海量点
+	///////////////////////////////
+    if (document.createElement('canvas').getContext) { 
+        var points = []; 
+        var data = {
+        	"data": [
+        		[116.194,45.435,2],[116.212,36.858,2],[115.173,76.896,3],[116.136,99.394,2],[116.138,38.839,3],[116.159,39.447,2],[117.189,39.891,3],[116.213,40.22,3],[116.128,40.922,1],[115.134,41.533,1],[116.149,41.793,1],[113.204,42.719,1],[116.131,43.391,1],[116.102,43.951,2],[116.211,44.981,1],[116.148,45.469,1]
+        	]
+        }
+        for (var i = 0; i < data.data.length; i++) {
+          points.push(new BMap.Point(data.data[i][0], data.data[i][1]));
+        }
+        var options = {
+            size: 6,
+            shape: BMAP_POINT_SHAPE_STAR,
+            color: '#d340c3'
+        }
+        // 创建海量点
+        var pointCollection = new BMap.PointCollection(points, options); 
+        pointCollection.addEventListener('click', function (e) {
+          	console.log('单击点的坐标为：' + e.point.lng + ',' + e.point.lat); 
+          	this.openInfoWindow(infoWindow);
+
+		   	
+		   	// document.getElementById('imgDemo').onload = function (){
+			   // infoWindow.redraw(); 
+		   	// }
+
+        });
+        // 添加到地图中
+        map.addOverlay(pointCollection);
+
+    } else {
+        alert('请在chrome、safari、IE8+以上浏览器查看');
+    }
+	
+
+
+
+    // 设置地图显示的城市 此项是必须设置的
+	map.setCurrentCity("北京");
+	// 开启鼠标滚轮缩放          
+	map.enableScrollWheelZoom(true);     
+</script>
